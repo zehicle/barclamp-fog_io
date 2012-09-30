@@ -1,0 +1,87 @@
+# Copyright 2012, Dell, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author: RobHirschfeld
+#
+# This file directs the installation of the barclamp by the Crowbar Framework
+# The major compoents are
+#    barclamp: detalis about the barclamp
+#    crowbar: installation instructions
+#    nav: (optional) injects items into the Crowbar UI menu
+#    debs/rpms/gems: components needs by the barclamp
+
+barclamp:
+  name: fog_io
+  display: Fog.io
+  description: Implement Fog Cloud API to browse OpenStack Cloud
+  proposal_schema_version: 1
+  # controlls if barclamp is shown in UI list (true=yes)
+  user_managed: false
+  version: 0
+  # Requires allows you to declare that this barclamp relies on
+  # another barclamp to provide some of its functionality.
+  # All barclamps implicitly rely on the crowbar barclamp.
+  requires:
+    - nova        # rely on a single other barclamp
+    - @openstack  # rely on another group of barclamps.
+  # Member allows you to declare that this barclamp is a member
+  # of a group of related barclamp.  A barclamp can be a member of 
+  # muliple groups, and a group name can be used instead of a barclamp
+  # in a requires: clause by prefixing it with an @ sign. 
+  member:
+    - openstack
+  # Os_support allows you to declare that this barclamp only supports
+  # specific operating systems.  If you don't have an os_support
+  # section, Crowbar will assume the barclamp works on all the operating
+  # systems it supports.  
+  os_support:
+    - ubuntu-12.04
+
+crowbar:
+  layout: 1
+  order: 1000
+  run_order: 1000
+  chef_order: 1000
+  proposal_schema_version: 2
+
+# gems allows you to declare the gems you need.
+# Unlike the other package types, you can ask for a specific version of a gem
+# The build system will solve dependencies as best it can, but if a gem you have 
+# requires extra packages to install you will need to add them to the appropriate
+# build_pkgs section of rpms and debs above.
+debs:
+  pkgs:
+    - libxml2
+    - libxml2-dev
+    - libxslt1-dev
+    
+gems:
+  pkgs:
+    # put your gems here.
+    - libxml2
+    - nokogiri
+    - jruby-pageant
+    - ruby-hmac
+    - fog
+  
+
+locale_additions:
+  en:
+    nav:
+      fog_io: Fog.io
+    nodes:
+      fog_io:
+        vms: OpenStack VMs
+        images: Images
+        sizes: Sizes
