@@ -78,8 +78,8 @@ locale_additions:
   en:
     nav:
       fog_io: Fog.io
-    nodes:
-      fog_io:
+    fog_io:
+      nodes:
         vms: OpenStack VMs
         images: Images
         sizes: Sizes

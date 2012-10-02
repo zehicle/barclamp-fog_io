@@ -20,41 +20,5 @@ class FogIoService < ServiceObject
     @logger = thelogger
   end
   
-  #if barclamp allows multiple proposals OVERRIDE
-  # def self.allow_multiple_proposals?
-  
-  def create_proposal
-    @logger.debug("Fog io create_proposal: entering")
-    base = super
-
-    nodes = NodeObject.all
-    nodes.delete_if { |n| n.nil? or n.admin? }
-    if nodes.size >= 1
-      base["deployment"]["fog_io"]["elements"] = {
-        "fog_io-server" => [ nodes.first[:fqdn] ]
-      }
-    end
-
-    @logger.debug("Fog io create_proposal: exiting")
-    base
-  end
-
-  def apply_role_pre_chef_call(old_role, role, all_nodes)
-    @logger.debug("Fog io apply_role_pre_chef_call: entering #{all_nodes.inspect}")
-    return if all_nodes.empty?
-
-    # Make sure the bind hosts are in the admin network
-    all_nodes.each do |n|
-      node = NodeObject.find_node_by_name n
-
-      admin_address = node.get_network_by_type("admin")["address"]
-      node.crowbar[:fog_io] = {} if node.crowbar[:fog_io].nil?
-      node.crowbar[:fog_io][:api_bind_host] = admin_address
-
-      node.save
-    end
-    @logger.debug("Fog io apply_role_pre_chef_call: leaving")
-  end
-
 end
 

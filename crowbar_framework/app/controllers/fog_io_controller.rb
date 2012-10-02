@@ -12,14 +12,29 @@
 # See the License for the specific language governing permissions and 
 # limitations under the License. 
 # 
+require 'rubygems'
+require 'fog'
 
 class FogIoController < BarclampController
-  def initialize
-    @service_object = FogIoService.new logger
-  end
   
+  def connection
+    # this should go into a session eventually
+    connection = Fog::Compute.new(
+      :provider => 'OpenStack',
+      :openstack_username => 'crowbar',
+      :openstack_api_key => 'crowbar',
+      :openstack_auth_url => 'http://192.168.124.81:5000/v2.0/tokens',
+      :openstack_tenant => 'openstack'
+    )
+  end
+
   def nodes
-    # action goes here!
+    @cloud = connection
+    # create a connection
+    respond_to do |format|
+      format.html # index.html.haml
+      format.json { render :json => "foo" }
+    end
   end
   
 end
