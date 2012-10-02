@@ -68,13 +68,10 @@ debs:
     
 gems:
   pkgs:
-    # put your gems here.
+    - fog
     - libxml2
     - nokogiri
     - jruby-pageant
-    - ruby-hmac
-    - fog
-  
 
 locale_additions:
   en:
