@@ -69,6 +69,7 @@ debs:
 gems:
   pkgs:
     - fog
+    - ruby-hmac
     - libxml2
     - nokogiri
     - jruby-pageant
