@@ -17,7 +17,7 @@ require 'fog'
 
 class FogIoController < BarclampController
   
-  def connection
+  def connection(user="default")
     # lookup information about keystone
     configs = ProposalObject.find_proposals('keystone')
     if configs.length > 0
@@ -26,16 +26,17 @@ class FogIoController < BarclampController
       # this should go into a session eventually
       connection = Fog::Compute.new(
         :provider => 'OpenStack',
-        :openstack_username => config["admin"]["username"],
-        :openstack_api_key => config["admin"]["password"],
+        :openstack_username => config[user]["username"],
+        :openstack_api_key => config[user]["password"],
         :openstack_auth_url => "http://#{server}:5000/v2.0/tokens",
-        :openstack_tenant => config["admin"]["tenant"]
+        :openstack_tenant => config[user]["tenant"]
       )
     end
   end
 
   def nodes
-    @cloud = connection
+    @user = params[:user] || "default"
+    @cloud = connection(@user)
     if request.post? 
       server = connection.servers.create(params)
       flash[:notice] = I18n.t((server ? 'create_success' : 'create_fail'), :scope=>'fog_io.nodes')

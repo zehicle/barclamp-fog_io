@@ -1,3 +1,9 @@
+%p{:style => 'float:right'}
+  =t '.user'
+  -if params[:user].nil? or params[:user].eql? 'admin'
+    = link_to t('.default_user'), nodes_barclamp_path(:controller=>'fog_io', :user=>'default')
+  -else
+    = link_to t('.admin_user'), nodes_barclamp_path(:controller=>'fog_io', :user=>'admin')
 %h2= t '.nodes'
 
 - servers = @cloud.servers

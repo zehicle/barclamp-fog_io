@@ -74,10 +74,14 @@ gems:
     - nokogiri
     - jruby-pageant
 
+nav:
+  utils:
+    fog_io: nodes_barclamp_path(:controller=>'fog_io')
+    
 locale_additions:
   en:
     nav:
-      fog_io: Fog.io
+      fog_io: "Fog.io Cloud Mgmt"
     fog_io:
       nodes:
         vms: OpenStack VMs
@@ -93,4 +97,7 @@ locale_additions:
         keypair: "Key Pair"
         create_title: "Create a Server"
         create: "Create"
+        user: "Select User"
+        default_user: "Default"
+        admin_user: "Admin"
         
