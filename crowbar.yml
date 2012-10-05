@@ -84,7 +84,8 @@ locale_additions:
       fog_io: "Fog.io Cloud Mgmt"
     fog_io:
       nodes:
-        vms: OpenStack VMs
+        nodes: "OpenStack Servers (via Fog.io)"
+        vms: "OpenStack VMs"
         images: Images
         sizes: Sizes
         instance: "Instance ID"
@@ -95,9 +96,9 @@ locale_additions:
         flavor: Flavor
         image: Image
         keypair: "Key Pair"
-        create_title: "Create a Server"
+        create_title: "Enter server information to request a new server."
         create: "Create"
-        user: "Select User"
+        user: "Select User:"
         default_user: "Default"
         admin_user: "Admin"
         
