@@ -1,3 +1,49 @@
 %h2= t '.nodes'
 
-%p= @cloud.inspect
+- servers = @cloud.servers
+
+%section.box#details
+  %p= t '.create_title'
+  - form_for :server, :'data-remote' => true, :url => '/fog_io/nodes', :html => { :'data-type' => 'html',  :id => 'create', :class => "formtastic" } do |f|
+    %table.data.box
+      %thead
+        %tr
+          %th= t('.name')
+          %th= t('.flavor')
+          %th= t('.image')
+          %th= t('.keypair')
+          %th
+      %tbody
+        %tr
+          %td=text_field_tag :name, "", :size => 15
+          %td=select_tag :flavor_ref, options_for_select(@flavors_select)
+          %td=select_tag :image_ref, options_for_select(@images_select)
+          %td=text_field_tag :key_name, "", :size => 15
+          %td
+            %input.button{:type => "submit", :name => "submit", :value => t('.create')}
+      
+%table.data.box
+  %thead
+    %tr
+      %th= t('.name')
+      %th= t('.state')
+      %th= t('.public_ip')
+      %th= t('.private_ip')
+      %th= t('.flavor')
+      %th= t('.image')
+      %th= t('.keypair')
+  %tbody
+    - if servers.count > 0
+      - servers.sort_by(&:id).each do |server|
+        %tr.server{ :class => cycle(:odd, :even, :name => "servers"), :id => server.id.to_s }
+          %td{:title=>server.id.to_s}= server.name
+          %td= server.state
+          %td= server.public_ip_address['addr'].to_s rescue t('unknown')
+          %td= server.private_ip_address['addr'].to_s rescue t('unknown')
+          %td= @flavors[server.flavor['id']]
+          %td= @images[server.image['id']]
+          %td= server.key_name
+    - else 
+      %tr
+        %td{:colspan=>7}= t 'no_items'
+        

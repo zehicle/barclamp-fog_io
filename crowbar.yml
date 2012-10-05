@@ -83,3 +83,14 @@ locale_additions:
         vms: OpenStack VMs
         images: Images
         sizes: Sizes
+        instance: "Instance ID"
+        name: Name
+        state: State
+        private_ip: "Private IP"
+        public_ip: "Public IP"
+        flavor: Flavor
+        image: Image
+        keypair: "Key Pair"
+        create_title: "Create a Server"
+        create: "Create"
+        
